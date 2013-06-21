@@ -17,6 +17,9 @@ def usage():
     print '\t-c <num> --crit=<num>\t\tCritical threshold'
     print '\t-w <num> --warn=<num>\t\tWarning threshold'
     print '\t-u <url> --url=<url>\t\tGraphite graph URL'
+    print '\t-P <url> --prefix=<url>\t\tGraphite graph URL - first parti, no final dot'
+    print '\t-H <hostname> --host=<hostname>\tGraphite graph URL - hostname (middle part)'
+    print '\t-S <url> --suffix=<url>\t\tGraphite graph URL - last part, no start dot'
     print '\t-r\t\t\t\tReverse - Alert when the value is UNDER warn/crit instead of OVER'
     print '\t-s <secs> --seconds=<secs>\tAverage over the last N seconds of data'
     print '\t--d1 <url> --d2 <url>\t\tDiff the latest values between two graphs'
@@ -93,10 +96,10 @@ def get_value(url, seconds=0):
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, 'hWULru:c:w:s:',
+        opts, args = getopt.getopt(argv, 'hWULru:c:w:s:P:H:S:',
                                     ['help', 'holt-winters', 'critupper',
                                      'critlower', 'url=', 'crit=', 'warn=',
-                                     'seconds=', 'd1=', 'd2='])
+                                     'seconds=', 'd1=', 'd2=','prefix=','host=','suffix'])
     except getopt.GetoptError, err:
         print str(err)
         sys.exit(STATE_UNKNOWN)
@@ -111,6 +114,9 @@ def main(argv):
     hw = None
     critupper = None
     critlower = None
+    url_prefix = None
+    host = None
+    url_suffix = None
     for opt, arg in opts:
         if opt in ('-h', '--help'):
             usage()
@@ -135,7 +141,14 @@ def main(argv):
             critupper = True
         elif opt in ('-L', '--critlower'):
             critlower = True
-    if not hw and ((url == None) or (warn == None) or (crit == None)) \
+        elif opt in ('-P', '--prefix'):
+            url_prefix = arg
+        elif opt in ('-S', '--suffix'):
+            url_suffix = arg
+        elif opt in ('-H', '--host'):
+            host = arg
+        is_composite_url = bool(url_prefix and url_suffix and host) 
+    if not hw and ( not(bool(url) ^ is_composite_url) or (warn == None) or (crit == None)) \
             and not diff1 and not diff2:
         usage()
         sys.exit(STATE_UNKNOWN)
@@ -144,6 +157,8 @@ def main(argv):
         usage()
         sys.exit(STATE_UNKNOWN)
 
+    if is_composite_url:
+      url = '.'.join([ url_prefix, host.replace('.','_'), url_suffix ])
     if hw:
         graphite_data, graphite_lower, graphite_upper = get_hw_value(url, seconds)
         print 'Current value: %s, lower band: %s, upper band: %s' % \
