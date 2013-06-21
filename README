@@ -11,6 +11,7 @@ Options:
     -u <url> --url=<url>        Graphite graph URL
     -r                          Reverse - Alert when the value is UNDER warn/crit instead of OVER
     -s <secs> --seconds=<secs>  Average over the last N seconds of data
+
     --d1 <url> --d2 <url>       Diff the latest values between two graphs
     -W --holt-winters           Perform a Holt-Winters check
     -U --critupper              Upper Holt-Winters band breach causes a crit,

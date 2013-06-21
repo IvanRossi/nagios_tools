@@ -147,7 +147,7 @@ def main(argv):
             url_suffix = arg
         elif opt in ('-H', '--host'):
             host = arg
-        is_composite_url = bool(url_prefix and url_suffix and host) 
+    is_composite_url = bool(url_prefix and url_suffix and host) 
     if not hw and ( not(bool(url) ^ is_composite_url) or (warn == None) or (crit == None)) \
             and not diff1 and not diff2:
         usage()
