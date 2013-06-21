@@ -6,16 +6,19 @@ check_graphite_data:
 Usage:
     check_graphite_data <options>
 Options:
-    -c <num> --crit=<num>       Critical threshold
-    -w <num> --warn=<num>       Warning threshold
-    -u <url> --url=<url>        Graphite graph URL
-    -r                          Reverse - Alert when the value is UNDER warn/crit instead of OVER
-    -s <secs> --seconds=<secs>  Average over the last N seconds of data
-
-    --d1 <url> --d2 <url>       Diff the latest values between two graphs
-    -W --holt-winters           Perform a Holt-Winters check
-    -U --critupper              Upper Holt-Winters band breach causes a crit,
-                                    - breaching lower band causes a warn
-    -L --critlower              Lower Holt-Winters band breach causes a crit,
-                                    - breaching upper band causes a warn
+    -c <num> --crit=<num>            Critical threshold
+    -w <num> --warn=<num>            Warning threshold
+    -u <url> --url=<url>             Graphite graph URL
+                                       - url can also be specified using -P -H -S options
+    -r                               Reverse - Alert when the value is UNDER warn/crit instead of OVER
+    -s <secs> --seconds=<secs>       Average over the last N seconds of data
+    -P <url> --prefix=<url>          Graphite graph URL - first part, no final dot
+    -H <hostname> --host=<hostname>  Graphite graph URL - hostname (middle part)
+    -S <url> --suffix=<url>          Graphite graph URL - last part, no start dot
+    --d1 <url> --d2 <url>            Diff the latest values between two graphs
+    -W --holt-winters                Perform a Holt-Winters check
+    -U --critupper                   Upper Holt-Winters band breach causes a crit,
+                                       - breaching lower band causes a warn
+    -L --critlower                   Lower Holt-Winters band breach causes a crit,
+                                       - breaching upper band causes a warn
     (If neither -U nor -L are given, we will always warn)

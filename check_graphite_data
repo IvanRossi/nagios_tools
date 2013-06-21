@@ -17,7 +17,7 @@ def usage():
     print '\t-c <num> --crit=<num>\t\tCritical threshold'
     print '\t-w <num> --warn=<num>\t\tWarning threshold'
     print '\t-u <url> --url=<url>\t\tGraphite graph URL'
-    print '\t-P <url> --prefix=<url>\t\tGraphite graph URL - first parti, no final dot'
+    print '\t-P <url> --prefix=<url>\t\tGraphite graph URL - first part, no final dot'
     print '\t-H <hostname> --host=<hostname>\tGraphite graph URL - hostname (middle part)'
     print '\t-S <url> --suffix=<url>\t\tGraphite graph URL - last part, no start dot'
     print '\t-r\t\t\t\tReverse - Alert when the value is UNDER warn/crit instead of OVER'
